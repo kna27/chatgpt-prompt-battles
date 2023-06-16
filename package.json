@@ -1,22 +1,19 @@
 {
   "name": "chatgpt-prompt-battles",
   "version": "1.0.0",
-  "description": "",
+  "description": "Chat GPT Prompt-based Battles",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kna27/chatgpt-prompt-battles.git"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kna27/chatgpt-prompt-battles/issues"
-  },
-  "homepage": "https://github.com/kna27/chatgpt-prompt-battles#readme",
+  "contributors": ["Andrew Theberge <github.com/awt-256>", "Krish Arora <github.com/kna27>", "Zsofia Gordon <github.com/zsofiagordon>"],
+  "license": "MIT",
   "dependencies": {
+    "express": "^4.18.2",
     "hbs": "^4.2.0"
   }
 }

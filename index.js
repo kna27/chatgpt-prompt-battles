@@ -8,9 +8,11 @@ const app = express();
 app.set("view engine", "hbs");
 app.use(express.static(__dirname + "/public"));
 
-app.get("/", (req, res) => {
-    res.send("Hello World!");
-});
+// TEMP
+app.use(require("./routes/index.js"));
+app.use(require("./routes/play.js"));
+app.use(require("./routes/profile.js"));
+app.use(require("./routes/viewchalls.js"));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

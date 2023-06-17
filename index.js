@@ -1,22 +1,53 @@
-const express = require("express");
-const Handlebars = require("hbs");
-
-Handlebars.registerPartials(__dirname + "/views/partials/", (error) => {if (error) throw error});
-
+// set up .env
 const dotenv = require('dotenv');
-
 dotenv.config();
 
+// prep webserver
+const express = require("express");
 const app = express();
 
+
+
+// auth0 Auth for express
+const { auth, requiresAuth } = require('express-openid-connect');
+
+if (!process.env.AUTH0_SECRET) {
+    throw new Error("To run this app, please set AUTH0 values in .env (see sample_env.sh");
+}
+
+app.use(auth({
+    authRequired: false,
+    auth0Logout: true,
+    secret: process.env.AUTH0_SECRET,
+    baseURL: process.env.AUTH0_BASEURL,
+    clientID: process.env.AUTH0_CLIENT_ID,
+    issuerBaseURL: process.env.AUTH0_ISSUER_BASEURL
+}));
+
+// store auth session data
+app.use((req, res, next) => {
+    res.locals.isLoggedIn = req.oidc.isAuthenticated();
+    res.locals.user = req.oidc.user;
+    next();
+});
+
+
+
+// Load in partials
+const Handlebars = require("hbs");
+Handlebars.registerPartials(__dirname + "/views/partials/", (error) => {if (error) throw error});
 app.set("view engine", "hbs");
+
+// public pages
 app.use(express.static(__dirname + "/public"));
 
-// TEMP
+// hbs pages
 app.use(require("./routes/index.js"));
-app.use(require("./routes/play.js"));
-app.use(require("./routes/profile.js"));
-app.use(require("./routes/challs.js"));
+app.use(requiresAuth(), require("./routes/play.js"));
+app.use(requiresAuth(), require("./routes/profile.js"));
+app.use(requiresAuth(), require("./routes/challs.js"));
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

@@ -3,8 +3,7 @@ const express = require("express");
 const app = new express.Router();
 
 app.get("/", (req, res) => {
-    res.send("routing to index.js");
-    res.end();
+    res.render("index");
 });
 
 module.exports = app;

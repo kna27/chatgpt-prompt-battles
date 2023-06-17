@@ -3,7 +3,7 @@ export PORT=3000
 
 # webserver auth
 export AUTH0_SECRET=""
-export AUTH0_BASEURL=""
+export AUTH0_BASEURL="http://localhost:3000"
 export AUTH0_CLIENT_ID=""
 export AUTH0_ISSUER_BASEURL=""
 

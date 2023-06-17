@@ -13,24 +13,42 @@
         <input type="text" name="username" value="{{username}}">
         <input type="submit" value="Update">
     </form>
+    <h1>Challenges Created</h1>
     <table>
         <tr>
             <th>Challenge Name</th>
             <th>Number of Solves</th>
             <th>Delete</th>
         </tr>
-        {{#each challenges}}
-        <tr>
-            <td>{{name}}</td>
-            <td>{{solves}}</td>
-            <td>
-                <form action="/profile" method="post">
-                    <input type="hidden" name="challenge_id" value="{{id}}">
-                    <input type="submit" value="Delete">
-                </form>
-            </td>
-        </tr>
+        {{#each challsCreated}}
+            <tr>
+                <td>{{this.challenge_name}}</td>
+                <td>{{this.solves_count}}</td>
+                <td>
+                    <form action="/profile" method="post">
+                        <input type="hidden" name="challenge_id" value="{{this.challenge_id}}">
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
+            </tr>
         {{/each}}
+    </table>
+
+    <h1>Challenges Solved</h1>
+    <table>
+        <tr>
+            <th>Challenge Name</th>
+            <th>Author</th>
+            <th>Number of Solves</th>
+        </tr>
+        {{#each challsSolved}}
+            <tr>
+                <td><a href="/challs/{{this.challenge_id}}">{{this.challenge_name}}</a></td>
+                <td>{{this.author_name}}</td>
+                <td>{{this.solves_count}}</td>
+            </tr>
+        {{/each}}
+    </table>
 </body>
 
 </html>

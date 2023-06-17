@@ -70,11 +70,50 @@ async function getChallenge(id) {
     return result.rows[0];
 }
 
+async function getUsersChallenges(id) {
+    const query = `SELECT c.id AS challenge_id,
+                        c.name AS challenge_name,
+                        COUNT(s.id) AS solves_count
+                    FROM challenges c
+                    LEFT JOIN solves s ON s.challenge_id = c.id
+                    WHERE c.user_id = $1
+                    GROUP BY c.id;`;
+    const values = [id];
+    const result = await pool.query(query, values);
+    return result.rows;
+}
+
+async function getChallengesSolvedByUser(id) {
+    // get the challenges solved by a user
+    // challenge_id, challenge_name, author_name, solves_count
+    const query = `SELECT c.id AS challenge_id,
+                        c.name AS challenge_name,
+                        u.username AS author_name,
+                        COUNT(s.id) AS solves_count
+                    FROM solves s
+                    JOIN challenges c ON c.id = s.challenge_id
+                    JOIN users u ON u.id = c.user_id
+                    WHERE s.user_id = $1
+                    GROUP BY c.id, u.username;`;
+    const values = [id];
+    const result = await pool.query(query, values);
+    return result.rows;
+}
+
+async function deleteChallenge(id) {
+    const query = `DELETE FROM challenges WHERE id = $1`;
+    const values = [id];
+    await pool.query(query, values);
+}
+
 module.exports = {
     getUser,
     createUser,
     updateUsername,
     addChallenge,
     getAllChallenges,
-    getChallenge
+    getChallenge,
+    getUsersChallenges,
+    getChallengesSolvedByUser,
+    deleteChallenge
 };

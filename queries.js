@@ -40,7 +40,7 @@ async function addChallenge(auth0Sid, name, prompt) {
 }
 
 async function getAllChallenges() {
-    const query = `SELECT  c.id AS challenge_id, 
+    const query = `SELECT c.id AS challenge_id, 
                         c.name AS challenge_name, 
                         u.username AS author_name, 
                         COUNT(s.id) AS solves_count
@@ -52,10 +52,29 @@ async function getAllChallenges() {
     return result.rows;
 }
 
+async function getChallenge(id) {
+    const query = `SELECT c.name AS challenge_name, 
+                    COUNT(s.id) AS solves_count, 
+                    c.prompt AS challenge_prompt, 
+                    u.username AS author_name
+                FROM challenges c
+                JOIN users u ON u.id = c.user_id
+                LEFT JOIN solves s ON s.challenge_id = c.id
+                WHERE c.id = $1
+                GROUP BY c.name, c.prompt, u.username;`;
+    const values = [id];
+    const result = await pool.query(query, values);
+    if (result.rowCount === 0) {
+        return null;
+    }
+    return result.rows[0];
+}
+
 module.exports = {
     getUser,
     createUser,
     updateUsername,
     addChallenge,
-    getAllChallenges
+    getAllChallenges,
+    getChallenge
 };

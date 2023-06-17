@@ -1,8 +1,0 @@
-This folder is set up at the top of index.js to
-be automatically used for Partials
-
-
-```
-hbs.registerPartials(__dirname + '/views/partials', function (err) {});
-```
-(https://www.npmjs.com/package/handlebars)

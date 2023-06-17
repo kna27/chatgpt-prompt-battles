@@ -1,10 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {{> head_meta}}
-    <title>Profile Page</title>
+    <title>Profile</title>
 </head>
+
 <body>
-    
+    <h1>{{username}}</h1>
+    <a href="/logout">Logout</a>
+    <form action="/profile" method="post">
+        <input type="text" name="username" value="{{username}}">
+        <input type="submit" value="Update">
+    </form>
+    <table>
+        <tr>
+            <th>Challenge Name</th>
+            <th>Number of Solves</th>
+            <th>Delete</th>
+        </tr>
+        {{#each challenges}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{solves}}</td>
+            <td>
+                <form action="/profile" method="post">
+                    <input type="hidden" name="challenge_id" value="{{id}}">
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
+        </tr>
+        {{/each}}
 </body>
+
 </html>

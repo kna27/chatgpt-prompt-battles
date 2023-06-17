@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{> head_meta}}
+    <title>Create a Challenge</title>
+</head>
+
+<body>
+    <h1>Create a Challenge</h1>
+    <form action="/create" method="post">
+        <input type="text" name="name" placeholder="Challenge Name">
+        <textarea name="prompt" placeholder="Prompt..."></textarea>
+        <input type="submit" value="Create">
+    </form>
+</body>
+
+</html>

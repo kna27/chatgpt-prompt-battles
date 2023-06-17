@@ -1,10 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {{> head_meta}}
     <title>Global Challenges</title>
 </head>
+
 <body>
-    
+    <h1>Global Challenges</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Challenge Name</th>
+                <th>Author</th>
+                <th>Solves</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each challs}}
+                <tr>
+                    <td><a href="/chall/{{this.challenge_id}}">{{this.challenge_name}}</a></td>
+                    <td>{{this.author_name}}</td>
+                    <td>{{this.solves_count}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
 </body>
+
 </html>

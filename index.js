@@ -1,4 +1,8 @@
 const express = require("express");
+const hbs = require("hbs");
+
+Handlebars.registerPartials(__dirname + "/views/partials/", (error) => {if (error) throw error});
+
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -12,7 +16,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(require("./routes/index.js"));
 app.use(require("./routes/play.js"));
 app.use(require("./routes/profile.js"));
-app.use(require("./routes/viewchalls.js"));
+app.use(require("./routes/challs.js"));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

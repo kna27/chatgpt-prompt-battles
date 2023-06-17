@@ -22,6 +22,7 @@ declare interface Challenge extends ChallengeMetadata {
 }
 
 
+
 declare interface UserSettings {
     /** User max name length is 24 */
     public name: string;

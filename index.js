@@ -1,5 +1,5 @@
 const express = require("express");
-const hbs = require("hbs");
+const Handlebars = require("hbs");
 
 Handlebars.registerPartials(__dirname + "/views/partials/", (error) => {if (error) throw error});
 

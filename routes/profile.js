@@ -36,9 +36,5 @@ app.post("/profile", async (req, res) => {
     return res.redirect("/profile");
 });
 
-app.get("/logout", (req, res) => {
-    req.oidc.logout();
-    res.redirect("/");
-});
 
 module.exports = app;

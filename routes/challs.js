@@ -1,5 +1,5 @@
 const express = require("express");
-const Queries = require("../queries.js");
+const Queries = require("../src/queries.js");
 const wordlist = require('wordlist-english');
 const request = require('request');
 

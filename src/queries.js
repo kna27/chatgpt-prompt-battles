@@ -1,4 +1,4 @@
-const pool = require('./db');
+const pool = require('./db.js');
 
 async function getUser(id) {
     const query = `SELECT * FROM users WHERE auth0_user_key = $1`;

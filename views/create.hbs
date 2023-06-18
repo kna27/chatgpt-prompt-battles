@@ -7,7 +7,9 @@
 </head>
 
 <body>
+    {{> header}}
     <h1>Create a Challenge</h1>
+    <p>Create a prompt to try and hide a randomized password.</p>
     <form action="/create" method="post">
         <input type="text" name="name" placeholder="Challenge Name">
         <textarea name="prompt" placeholder="Prompt..."></textarea>

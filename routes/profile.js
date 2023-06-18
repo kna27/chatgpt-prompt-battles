@@ -1,5 +1,5 @@
 const express = require("express");
-const Queries = require("../queries.js");
+const Queries = require("../src/queries.js");
 const app = new express.Router();
 
 app.get("/profile", async (req, res) => {

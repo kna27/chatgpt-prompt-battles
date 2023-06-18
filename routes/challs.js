@@ -5,6 +5,7 @@ const request = require('request');
 
 const app = new express.Router();
 const passwordList = wordlist['english'];
+const password = passwordList[Math.floor(Math.random() * passwordList.length)]; // TODO (zsofia): make this random for each chall instance
 
 app.get("/create", (req, res) => {
     res.render("create");
@@ -44,8 +45,11 @@ app.get("/challs/:id", async (req, res) => {
         res.redirect("/challs");
         return;
     }
-    console.log(chall['challenge_id'])
-    res.render("play", { id: chall['challenge_id'], name: chall['challenge_name'], author: chall['author_name'], solves: chall['solves_count'], prompt: chall['challenge_prompt'] });
+    res.render("play", {
+        id: chall['challenge_id'], name: chall['challenge_name'],
+        author: chall['author_name'], solves: chall['solves_count'],
+        prompt: chall['challenge_prompt']
+    });
 });
 
 app.post("/play/:id", async (req, res) => {
@@ -62,8 +66,19 @@ app.post("/play/:id", async (req, res) => {
     }
     let prompt = chall['challenge_prompt'];
     let injection = req.body.injection;
-    let password = passwordList[Math.floor(Math.random() * passwordList.length)];
+    let passwordAttempt = req.body.password;
 
+    if (passwordAttempt) {
+        if (passwordAttempt == password) {
+            Queries.addSolveToUser(user.sub, id);
+            res.redirect("/profile");
+            return;
+        }
+        else {
+            res.redirect("/challs/" + id);
+            return;
+        }
+    }
     let messageArr = {
         "model": "gpt-3.5-turbo",
         "messages": [

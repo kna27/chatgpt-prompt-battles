@@ -18,6 +18,11 @@
     </form>
     <h2>Result:</h2>
     <div id="result"></div>
+    <form action="/play/{{id}}" method="POST">
+        <label for="flagInput">Password:</label>
+        <input type="text" id="password" name="password" required>
+        <button type="submit">Submit</button>
+    </form>
     <a href="/challs">Back to Challenges</a>
 </body>
 

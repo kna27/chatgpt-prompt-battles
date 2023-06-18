@@ -1,5 +1,6 @@
 // set up .env
 const dotenv = require('dotenv');
+const fs = require('fs');
 dotenv.config();
 
 // prep webserver
@@ -13,8 +14,15 @@ app.use(express.urlencoded({ extended: true }));
 // auth0 Auth for express
 const { auth, requiresAuth } = require('express-openid-connect');
 
-if (!process.env.AUTH0_SECRET) {
-    throw new Error("To run this app, please set AUTH0 values in .env (see sample_env.sh");
+const requiredEnvVars = fs.readFileSync('.env.example', 'utf8')
+    .split('\n')
+    .filter(line => line.includes('='))
+    .map(line => line.split('=')[0]);
+
+for (let envVar of requiredEnvVars) {
+    if (!process.env[envVar]) {
+        throw new Error(`Missing required environment variable ${envVar}`);
+    }
 }
 
 app.use(auth({
@@ -52,7 +60,7 @@ app.use((req, res, next) => {
 
 // Load in partials
 const Handlebars = require("hbs");
-Handlebars.registerPartials(__dirname + "/views/partials/", (error) => {if (error) throw error});
+Handlebars.registerPartials(__dirname + "/views/partials/", (error) => { if (error) throw error });
 app.set("view engine", "hbs");
 
 // public pages

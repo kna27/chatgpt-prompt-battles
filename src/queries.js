@@ -85,8 +85,6 @@ async function getUsersChallenges(id) {
 }
 
 async function getChallengesSolvedByUser(id) {
-    // get the challenges solved by a user
-    // challenge_id, challenge_name, author_name, solves_count
     const query = `SELECT c.id AS challenge_id,
                         c.name AS challenge_name,
                         u.username AS author_name,

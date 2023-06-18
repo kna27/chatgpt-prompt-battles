@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Play Page hehe :3</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Event listener for the form submission
+      $('form').submit(function(event) {
+        event.preventDefault();
+
+        // Get the prompt entered by the user
+        const prompt = $('#promptInput').val();
+
+        // Send the prompt to the server
+        $.ajax({
+          type: 'POST',
+          url: '/inject-prompt',
+          data: JSON.stringify({ prompt: prompt }),
+          contentType: 'application/json',
+          success: function(response) {
+            // Display the completed prompt
+            $('#result').text(response);
+          },
+          error: function(error) {
+            console.error('Error:', error.responseText);
+          }
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1>Write prompt here uwuuu</h1>
+  <form>
+    <label for="promptInput">Enter Prompt:</label>
+    <input type="text" id="promptInput" name="promptInput" required>
+    <button type="submit">Inject Prompt</button>
+  </form>
+  <h2>Result:</h2>
+  <div id="result"></div>
+</body>
+</html>

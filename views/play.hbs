@@ -15,14 +15,14 @@
     <form>
         <label for="promptInput">Enter Prompt:</label>
         <input type="text" id="promptInput" name="promptInput" required>
-        <button type="submit">Inject Prompt</button>
+        <button type="submit" class="button is-primary" id="submitPrompt">Inject Prompt</button>
     </form>
     <h2>Result:</h2>
     <div id="result"></div>
     <form action="/play/{{id}}" method="POST">
         <label for="flagInput">Password:</label>
         <input type="text" id="password" name="password" required>
-        <button type="submit">Submit</button>
+        <button type="submit" class="button is-primary">Submit</button>
     </form>
     <a href="/challs">Back to Challenges</a>
 </body>
@@ -32,11 +32,11 @@
         const form = document.querySelector('form');
         const promptInput = document.querySelector('#promptInput');
         const result = document.querySelector('#result');
-
+        const promptBtn = document.getElementById("submitPrompt");
         form.addEventListener('submit', function (event) {
             event.preventDefault();
-            const prompt = promptInput.value;
-
+            let prompt = promptInput.value;
+            promptBtn.className = "button is-primary is-loading";
             fetch('/play/{{id}}', {
                 method: 'POST',
                 headers: {
@@ -48,14 +48,17 @@
                     if (response.ok) {
                         return response.text();
                     } else {
-                        throw new Error(`Error: ${response.statusText}`);
+                        alert(`Error: ${response.statusText}`);
                     }
                 })
                 .then(data => {
                     result.textContent = data;
                 })
                 .catch(error => {
-                    console.error('Error:', error);
+                    alert('Error:', error);
+                })
+                .finally(() => {
+                    promptBtn.className = "button is-primary";
                 });
         });
     });

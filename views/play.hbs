@@ -4,7 +4,6 @@
 <head>
     {{> head_meta}}
     <title>Play Page</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -23,28 +22,35 @@
 </body>
 
 <script>
-    $(document).ready(function () {
-        // Event listener for the form submission
-        $('form').submit(function (event) {
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
+        const promptInput = document.querySelector('#promptInput');
+        const result = document.querySelector('#result');
+
+        form.addEventListener('submit', function (event) {
             event.preventDefault();
+            const prompt = promptInput.value;
 
-            // Get the prompt entered by the user
-            const prompt = $('#promptInput').val();
-
-            // Send the prompt to the server
-            $.ajax({
-                type: 'POST',
-                url: '/play/{{id}}',
-                data: JSON.stringify({ injection: prompt }),
-                contentType: 'application/json',
-                success: function (response) {
-                    // Display the completed prompt
-                    $('#result').text(response);
+            fetch('/play/{{id}}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
                 },
-                error: function (error) {
-                    console.error('Error:', error.responseText);
-                }
-            });
+                body: JSON.stringify({ injection: prompt })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error(`Error: ${response.statusText}`);
+                    }
+                })
+                .then(data => {
+                    result.textContent = data;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
     });
 </script>

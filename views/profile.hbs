@@ -15,10 +15,10 @@
         <input type="submit" value="Update">
     </form>
     <h1>Challenges Created</h1>
-    <table>
+    <table id="challsCreated" class="table">
         <tr>
-            <th>Challenge Name</th>
-            <th>Number of Solves</th>
+            <th onclick="sortTable(0, 'challsCreated')">Challenge Name</th>
+            <th onclick="sortTable(1, 'challsCreated')">Number of Solves</th>
             <th>Delete</th>
         </tr>
         {{#each challsCreated}}
@@ -36,11 +36,11 @@
     </table>
 
     <h1>Challenges Solved</h1>
-    <table>
+    <table id="challsSolved" class="table">
         <tr>
-            <th>Challenge Name</th>
-            <th>Author</th>
-            <th>Number of Solves</th>
+            <th onclick="sortTable(0, 'challsSolved')">Challenge Name</th>
+            <th onclick="sortTable(1, 'challsSolved')">Author</th>
+            <th onclick="sortTable(2, 'challsSolved')">Number of Solves</th>
         </tr>
         {{#each challsSolved}}
             <tr>
@@ -51,5 +51,12 @@
         {{/each}}
     </table>
 </body>
+<script>
+    // Sort by solves descending
+    sortTable(1, 'challsCreated');
+    sortTable(1, 'challsCreated');
+    sortTable(2, 'challsSolved');
+    sortTable(2, 'challsSolved');
+</script>
 
 </html>

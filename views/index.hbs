@@ -8,13 +8,17 @@
 
 <body>
     {{> header}}
-    <h1>ChatGPT Prompt Battles</h1>
-    <p>ChatGPT Prompt Battles is a game centered around LLM prompt injection with ChatGPT.</p>
-    <p>Create prompts to try and trick ChatGPT into revealing sensitive information (a password).</p>
-    <p>Additionally, try and create your own prompts to defend against other attacking users.</p>
-
-    <button><a href="/login">Login to Play</a></button>
-
+    <section class="section" style="text-align: center">
+        <h1 class="title">ChatGPT Prompt Battles</h1>
+        <p>ChatGPT Prompt Battles is a game centered around LLM prompt injection with ChatGPT.</p>
+        <p>Create prompts to try and trick ChatGPT into revealing sensitive information (a password).</p>
+        <p>Additionally, try and create your own prompts to defend against other attacking users.</p>
+        {{#if user}}
+            <button class="button is-outline"><a href="/login">Login to Play</a></button>
+        {{else}}
+            <button class="button is-outline"><a href="/challs">Browse Challenges</a></button>
+        {{/if}}
+    </section>
 </body>
 
 </html>

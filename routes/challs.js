@@ -1,7 +1,10 @@
 const express = require("express");
 const Queries = require("../queries.js");
+const wordlist = require('wordlist-english');
+const request = require('request');
 
 const app = new express.Router();
+const passwordList = wordlist['english'];
 
 app.get("/create", (req, res) => {
     res.render("create");
@@ -41,7 +44,51 @@ app.get("/challs/:id", async (req, res) => {
         res.redirect("/challs");
         return;
     }
-    res.render("play", { name: chall['challenge_name'], author: chall['author_name'], solves: chall['solves_count'], prompt: chall['challenge_prompt'] });
+    console.log(chall['challenge_id'])
+    res.render("play", { id: chall['challenge_id'], name: chall['challenge_name'], author: chall['author_name'], solves: chall['solves_count'], prompt: chall['challenge_prompt'] });
+});
+
+app.post("/play/:id", async (req, res) => {
+    let user = req.oidc.user;
+    if (!user) {
+        res.redirect("/login");
+        return;
+    }
+    let id = req.params.id;
+    let chall = await Queries.getChallenge(id);
+    if (!chall) {
+        res.redirect("/challs");
+        return;
+    }
+    let prompt = chall['challenge_prompt'];
+    let injection = req.body.injection;
+    let password = passwordList[Math.floor(Math.random() * passwordList.length)];
+
+    let messageArr = {
+        "model": "gpt-3.5-turbo",
+        "messages": [
+            { "role": "system", "content": "The password is " + password },
+            { "role": "system", "content": prompt },
+            { "role": "user", "content": injection }
+        ],
+        "temperature": 0.3
+    };
+
+    let clientServerOptions = {
+        uri: 'https://api.openai.com/v1/chat/completions',
+        body: JSON.stringify(messageArr),
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + process.env.GLOBAL_OPENAI_AUTHKEY
+        }
+    };
+
+    request(clientServerOptions, function (error, response) {
+        responseArray = JSON.parse(response.body);
+        res.send(responseArray.choices[0].message.content);
+        return;
+    });
 });
 
 module.exports = app;

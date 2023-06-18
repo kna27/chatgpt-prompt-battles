@@ -53,7 +53,8 @@ async function getAllChallenges() {
 }
 
 async function getChallenge(id) {
-    const query = `SELECT c.name AS challenge_name, 
+    const query = `SELECT c.id AS challenge_id, 
+                    c.name AS challenge_name, 
                     COUNT(s.id) AS solves_count, 
                     c.prompt AS challenge_prompt, 
                     u.username AS author_name
@@ -61,7 +62,7 @@ async function getChallenge(id) {
                 JOIN users u ON u.id = c.user_id
                 LEFT JOIN solves s ON s.challenge_id = c.id
                 WHERE c.id = $1
-                GROUP BY c.name, c.prompt, u.username;`;
+                GROUP BY c.id, c.name, c.prompt, u.username;`;
     const values = [id];
     const result = await pool.query(query, values);
     if (result.rowCount === 0) {

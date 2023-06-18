@@ -60,7 +60,6 @@ app.use(express.static(__dirname + "/public"));
 
 // hbs pages
 app.use(require("./routes/index.js"));
-app.use(requiresAuth(), require("./routes/play.js"));
 app.use(requiresAuth(), require("./routes/profile.js"));
 app.use(requiresAuth(), require("./routes/challs.js"));
 

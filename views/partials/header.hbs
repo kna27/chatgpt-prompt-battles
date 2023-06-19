@@ -1,11 +1,14 @@
-<header>
-    <a href="/">Home</a>
-    {{#if user}}
-        <a href="/logout">Log Out</a>
-        <a href="/profile">Profile</a>
-        <a href="/create"> Create</a>
-        <a href="/challs">Challenges</a>
-    {{else}}
-        <a href="/login">Log In</a>
-    {{/if}}
+<header class="mb-5">
+    <nav class="navbar is-primary has-shadow">
+        <a href="/" class="navbar-item">ChatGPT Prompt Battles</a>
+        <hr class="navbar-divider">
+        {{#if user}}
+            <a href="/logout" class="navbar-item">Log Out</a>
+            <a href="/profile" class="navbar-item">Profile</a>
+            <a href="/create" class="navbar-item"> Create</a>
+            <a href="/challs" class="navbar-item">Challenges</a>
+        {{else}}
+            <a href="/login" class="navbar-item">Log In</a>
+        {{/if}}
+    </nav>
 </header>

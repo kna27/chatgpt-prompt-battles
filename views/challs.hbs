@@ -8,24 +8,27 @@
 
 <body>
     {{> header}}
-    <h1>Global Challenges</h1>
-    <table class="table" id="challs">
-        <thead>
-            <tr>
-                <th onclick="sortTable(0, 'challs')">Challenge Name</th>
-                <th onclick="sortTable(1, 'challs')">Author</th>
-                <th onclick="sortTable(2, 'challs')">Solves</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each challs}}
+    <section>
+        <h1 class="title is-2">Global Challenges</h1>
+        <h2 class="subtitle">Try to work-around prompts other users have created and reveal their passwords!</h2>
+        <table class="table is-striped" id="challs" style="width:80%">
+            <thead>
                 <tr>
-                    <td><a href="/challs/{{this.challenge_id}}">{{this.challenge_name}}</a></td>
-                    <td>{{this.author_name}}</td>
-                    <td>{{this.solves_count}}</td>
+                    <th onclick="sortTable(0, 'challs')">Challenge Name</th>
+                    <th onclick="sortTable(1, 'challs')">Author</th>
+                    <th onclick="sortTable(2, 'challs')">Solves</th>
                 </tr>
-            {{/each}}
-        </tbody>
+            </thead>
+            <tbody>
+                {{#each challs}}
+                    <tr>
+                        <td><a href="/challs/{{this.challenge_id}}">{{this.challenge_name}}</a></td>
+                        <td>{{this.author_name}}</td>
+                        <td>{{this.solves_count}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+    </section>
 </body>
 <script>
     // Sort by solves descending

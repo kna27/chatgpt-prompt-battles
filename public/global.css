@@ -2,19 +2,23 @@ section {
     text-align: center;
 }
 
+section * {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 table {
     margin-left: auto;
     margin-right: auto;
 }
 
-.is-small-width
-{
-    width: 50%;
+.is-small-width {
+    width: 50% !important;
 }
 
 @media screen and (max-width: 768px) {
-    .is-small-width
-    {
-        width: 80%;
+    .is-small-width {
+        width: 80% !important;
     }
 }

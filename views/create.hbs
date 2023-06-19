@@ -8,13 +8,23 @@
 
 <body>
     {{> header}}
-    <h1>Create a Challenge</h1>
-    <p>Create a prompt to try and hide a randomized password.</p>
-    <form action="/create" method="post">
-        <input type="text" name="name" placeholder="Challenge Name">
-        <textarea name="prompt" placeholder="Prompt..."></textarea>
-        <input type="submit" value="Create">
-    </form>
+    <section>
+        <h1 class="title is-2">Create a Challenge</h1>
+        <h2 class="subtitle">Create a prompt to try and hide a randomized password.</h2>
+        <form action="/create" method="post">
+            <div class="column is-10 center">
+                <label for="name">Challenge Name</label>
+                <input type="text" name="name" placeholder="Challenge Name"
+                    class="input is-rounded is-normal is-small-width">
+                <br/>
+                <br/>
+                <label for="prompt">Prompt</label>
+                <textarea name="prompt" placeholder="Prompt..." class="textarea is-small-width"></textarea>
+                <br />
+                <input type="submit" value="Create" class="button is-primary is-medium">
+            </div>
+        </form>
+    </section>
 </body>
 
 </html>

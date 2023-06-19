@@ -8,27 +8,37 @@
 
 <body>
     {{> header}}
-    <h1>{{name}}</h1>
-    <h2>By {{author}}</h2>
-    <p> {{solves}} solves</p>
-    <p>{{prompt}}</p>
-    <form>
-        <label for="promptInput">Enter Prompt:</label>
-        <input type="text" id="promptInput" name="promptInput" required>
-        <button type="submit" class="button is-primary" id="submitPrompt">Inject Prompt</button>
-    </form>
-    <h2>Result:</h2>
-    <div id="result"></div>
-    <form action="/play/{{id}}" method="POST">
-        <label for="flagInput">Password:</label>
-        <input type="text" id="password" name="password" required>
-        <button type="submit" class="button is-primary">Submit</button>
-    </form>
-    <a href="/challs">Back to Challenges</a>
+    <section>
+        <div class="content column is-8">
+            <h1 class="title is-2">{{name}}</h1>
+            <h2 class="subtitle">By {{author}}</h2>
+            <strong> {{solves}} solves</strong>
+            <p>Initial Prompt:</p>
+            <blockquote>{{prompt}}</blockquote>
+        </div>
+        <form class="column is-10 center">
+            <label for="promptInput">Enter Prompt:</label>
+            <textarea id="promptInput" name="promptInput" class="textarea is-small-width" required></textarea>
+            <button type="submit" class="button is-primary" id="submitPrompt">Inject Prompt</button>
+        </form>
+        <div class="content column is-8" id="resultDiv" style="display: none;">
+            <p>Result:</p>
+            <blockquote id="result"></blockquote>
+        </div>
+        <form action="/play/{{id}}" method="POST">
+            <label for="flagInput">Password:</label>
+            <br/>
+            <input type="text" id="password" name="password" class="input is-rounded is-normal is-small-width" required>
+            <button type="submit" class="button is-primary">Submit</button>
+        </form>
+        <br />
+        <a href="/challs" class="link">Back to Challenges</a>
+    </section>
 </body>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const resultDiv = document.getElementById("resultDiv");
         const form = document.querySelector('form');
         const promptInput = document.querySelector('#promptInput');
         const result = document.querySelector('#result');
@@ -36,6 +46,7 @@
         form.addEventListener('submit', function (event) {
             event.preventDefault();
             let prompt = promptInput.value;
+            resultDiv.style.display = "block";
             promptBtn.className = "button is-primary is-loading";
             fetch('/play/{{id}}', {
                 method: 'POST',

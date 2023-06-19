@@ -9,6 +9,12 @@
 <body>
     {{> header}}
     <section>
+        {{#if error}}
+            <div class="notification is-danger" style="width: 80%">
+                <button class="delete" onclick="this.parentElement.style.display='none';"></button>
+                <p>Error: {{error}}</p>
+            </div>
+        {{/if}}
         <div id="deleteConfirmation" class="notification is-danger" style="width: 80%;display: none">
             <p class="subtitle is-3">Delete Account</p>
             <p>Are you sure you want to delete your account? This <strong>cannot be undone</strong>. All challenges

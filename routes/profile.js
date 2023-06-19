@@ -12,7 +12,18 @@ app.get("/profile", async (req, res) => {
     }
     let challsCreated = await Queries.getUsersChallenges(dbUser.id);
     let challsSolved = await Queries.getChallengesSolvedByUser(dbUser.id);
-    return res.render("profile", { username: dbUser.username, challsCreated: challsCreated, challsSolved: challsSolved });
+    let options = { username: dbUser.username, challsCreated: challsCreated, challsSolved: challsSolved };
+    if (req.query.error) {
+        switch (req.query.error) {
+            case "usernameTaken":
+                options["error"] = "Username is already taken.";
+                break;
+            default:
+                options["error"] = "Unknown error.";
+                break;
+        }
+    }
+    return res.render("profile", options);
 });
 
 app.post("/profile", async (req, res) => {
@@ -24,6 +35,13 @@ app.post("/profile", async (req, res) => {
         dbUser = await Queries.getUser(user.sub);
     }
     if (req.body.username) {
+        if (req.body.username === dbUser.username) {
+            return res.redirect("/profile");
+        }
+        let usernameTaken = await Queries.getUserByUsername(req.body.username);
+        if (usernameTaken) {
+            return res.redirect("/profile?error=usernameTaken");
+        }
         await Queries.updateUsername(user.sub, req.body.username);
     }
     if (req.body.challenge_id) {

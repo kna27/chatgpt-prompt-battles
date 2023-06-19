@@ -26,6 +26,13 @@ async function createUser(auth0Sid, username) {
     await pool.query(query, values);
 }
 
+async function getUserByUsername(username) {
+    const query = `SELECT * FROM users WHERE username = $1`;
+    const values = [username];
+    const result = await pool.query(query, values);
+    return result.rows[0];
+}
+
 async function updateUsername(auth0Sid, username) {
     const query = `UPDATE users SET username = $1 WHERE auth0_user_key = $2`;
     const values = [username, auth0Sid];
@@ -134,6 +141,7 @@ async function addSolveToUser(auth0Sid, challengeId) {
 module.exports = {
     getUser,
     createUser,
+    getUserByUsername,
     updateUsername,
     deleteUser,
     addChallenge,

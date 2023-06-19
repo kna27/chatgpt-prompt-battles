@@ -3,9 +3,9 @@ create database chatgpt_battles;
 
 \connect chatgpt_battles;
 
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS challenges;
-DROP TABLE IF EXISTS solves;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS challenges CASCADE;
+DROP TABLE IF EXISTS solves CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL,

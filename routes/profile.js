@@ -36,5 +36,16 @@ app.post("/profile", async (req, res) => {
     return res.redirect("/profile");
 });
 
+app.get("/delete", async (req, res) => {
+    let user = req.oidc.user;
+    if (!user) return res.redirect("/login");
+    let dbUser = await Queries.getUser(user.sub);
+    if (!dbUser) {
+        await Queries.createUser(user.sub, user.email);
+        dbUser = await Queries.getUser(user.sub);
+    }
+    await Queries.deleteUser(dbUser.id);
+    return res.redirect("/logout");
+});
 
 module.exports = app;

@@ -32,6 +32,12 @@ async function updateUsername(auth0Sid, username) {
     await pool.query(query, values);
 }
 
+async function deleteUser(id) {
+    const query = `DELETE FROM users WHERE id = $1`;
+    const values = [id];
+    await pool.query(query, values);
+}
+
 async function addChallenge(auth0Sid, name, prompt) {
     let user = await getUserByAuth0Id(auth0Sid);
     const query = `INSERT INTO challenges (user_id, name, prompt) VALUES ($1, $2, $3)`;
@@ -129,6 +135,7 @@ module.exports = {
     getUser,
     createUser,
     updateUsername,
+    deleteUser,
     addChallenge,
     getAllChallengesWithUserSolvedCol,
     getChallenge,

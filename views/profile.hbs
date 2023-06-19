@@ -9,10 +9,20 @@
 <body>
     {{> header}}
     <section>
+        <div id="deleteConfirmation" class="notification is-danger" style="width: 80%;display: none">
+            <p class="subtitle is-3">Delete Account</p>
+            <p>Are you sure you want to delete your account? This <strong>cannot be undone</strong>. All challenges
+                created by you and your solves will be <strong>permanently</strong> deleted.</p>
+            <br>
+            <button class="button is-light" onclick="window.location.href='/profile'">No</button>
+            <button class="button is-light" onclick="window.location.href='/delete'">Yes</button>
+        </div>
         <h1 class="title is-2">Profile</h1>
         <h2 class="subtitle is-3">{{username}}</h2>
         <button class="button is-danger is-outlined" onclick="window.location.href='/logout'">Logout</button>
-        <button class="button is-danger" onclick="window.location.href='/delete'">Delete Account</button>
+        <button class="button is-danger"
+            onclick="document.getElementById('deleteConfirmation').style.display='block'">Delete
+            Account</button>
         <h2 class="subtitle is-5 mt-5">Change Username</h2>
         <form action="/profile" method="post">
             <input type="text" name="username" value="{{username}}" class="input is-rounded is-normal is-small-width">

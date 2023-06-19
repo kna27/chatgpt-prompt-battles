@@ -13,47 +13,51 @@
         <h2 class="subtitle is-3">{{username}}</h2>
         <button class="button is-danger is-outlined" onclick="window.location.href='/logout'">Logout</button>
         <button class="button is-danger" onclick="window.location.href='/delete'">Delete Account</button>
-        <h2 class="subtitle is-5">Change Username</h2>
+        <h2 class="subtitle is-5 mt-5">Change Username</h2>
         <form action="/profile" method="post">
             <input type="text" name="username" value="{{username}}" class="input is-rounded is-normal is-small-width">
-            <input type="submit" value="Update" class="button is-info">
+            <input type="submit" value="Update" class="button is-primary">
         </form>
-        <h2 class="title is-3">Challenges Created</h2>
-        <table id="challsCreated" class="table">
-            <tr>
-                <th onclick="sortTable(0, 'challsCreated')">Challenge Name</th>
-                <th onclick="sortTable(1, 'challsCreated')">Number of Solves</th>
-                <th>Delete</th>
-            </tr>
-            {{#each challsCreated}}
+        {{#if challsCreated}}
+            <h2 class="title is-3 mt-5">Challenges Created</h2>
+            <table id="challsCreated" class="table is-striped">
                 <tr>
-                    <td><a href="/challs/{{this.challenge_id}}">{{this.challenge_name}}</a></td>
-                    <td>{{this.solves_count}}</td>
-                    <td>
-                        <form action="/profile" method="post">
-                            <input type="hidden" name="challenge_id" value="{{this.challenge_id}}">
-                            <button type="submit" value="Delete" class="delete"></button>
-                        </form>
-                    </td>
+                    <th onclick="sortTable(0, 'challsCreated')">Challenge Name</th>
+                    <th onclick="sortTable(1, 'challsCreated')">Number of Solves</th>
+                    <th>Delete</th>
                 </tr>
-            {{/each}}
-        </table>
+                {{#each challsCreated}}
+                    <tr>
+                        <td><a href="/challs/{{this.challenge_id}}">{{this.challenge_name}}</a></td>
+                        <td>{{this.solves_count}}</td>
+                        <td>
+                            <form action="/profile" method="post">
+                                <input type="hidden" name="challenge_id" value="{{this.challenge_id}}">
+                                <button type="submit" value="Delete" class="delete"></button>
+                            </form>
+                        </td>
+                    </tr>
+                {{/each}}
+            </table>
+        {{/if}}
 
-        <h2 class="title is-3">Challenges Solved</h2>
-        <table id="challsSolved" class="table">
-            <tr>
-                <th onclick="sortTable(0, 'challsSolved')">Challenge Name</th>
-                <th onclick="sortTable(1, 'challsSolved')">Author</th>
-                <th onclick="sortTable(2, 'challsSolved')">Number of Solves</th>
-            </tr>
-            {{#each challsSolved}}
+        {{#if challsSolved}}
+            <h2 class="title is-3 mt-5">Challenges Solved</h2>
+            <table id="challsSolved" class="table is-striped">
                 <tr>
-                    <td><a href="/challs/{{this.challenge_id}}">{{this.challenge_name}}</a></td>
-                    <td>{{this.author_name}}</td>
-                    <td>{{this.solves_count}}</td>
+                    <th onclick="sortTable(0, 'challsSolved')">Challenge Name</th>
+                    <th onclick="sortTable(1, 'challsSolved')">Author</th>
+                    <th onclick="sortTable(2, 'challsSolved')">Number of Solves</th>
                 </tr>
-            {{/each}}
-        </table>
+                {{#each challsSolved}}
+                    <tr>
+                        <td><a href="/challs/{{this.challenge_id}}">{{this.challenge_name}}</a></td>
+                        <td>{{this.author_name}}</td>
+                        <td>{{this.solves_count}}</td>
+                    </tr>
+                {{/each}}
+            </table>
+        {{/if}}
     </section>
 </body>
 <script>

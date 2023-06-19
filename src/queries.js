@@ -30,6 +30,9 @@ async function getUserByUsername(username) {
     const query = `SELECT * FROM users WHERE username = $1`;
     const values = [username];
     const result = await pool.query(query, values);
+    if (result.rowCount === 0) {
+        return null;
+    }
     return result.rows[0];
 }
 
@@ -50,6 +53,16 @@ async function addChallenge(auth0Sid, name, prompt) {
     const query = `INSERT INTO challenges (user_id, name, prompt) VALUES ($1, $2, $3)`;
     const values = [user['id'], name, prompt];
     await pool.query(query, values);
+}
+
+async function getChallengeByName(name) {
+    const query = `SELECT * FROM challenges WHERE name = $1`;
+    const values = [name];
+    const result = await pool.query(query, values);
+    if (result.rowCount === 0) {
+        return null;
+    }
+    return result.rows[0];
 }
 
 async function getAllChallengesWithUserSolvedCol(auth0Sid) {
@@ -145,6 +158,7 @@ module.exports = {
     updateUsername,
     deleteUser,
     addChallenge,
+    getChallengeByName,
     getAllChallengesWithUserSolvedCol,
     getChallenge,
     getUsersChallenges,

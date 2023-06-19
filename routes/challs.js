@@ -8,7 +8,31 @@ const passwordList = wordlist['english'];
 const password = passwordList[Math.floor(Math.random() * passwordList.length)]; // TODO (zsofia): make this random for each chall instance
 
 app.get("/create", (req, res) => {
-    res.render("create");
+    let user = req.oidc.user;
+    if (!user) {
+        return res.redirect("/login");
+    }
+    let error = "";
+    if (req.query.error) {
+        switch (req.query.error) {
+            case "empty":
+                error = "Name and prompt cannot be empty.";
+                break;
+            case "nameTooLong":
+                error = "Name cannot be longer than 128 characters.";
+                break;
+            case "promptTooLong":
+                error = "Prompt cannot be longer than 512 characters.";
+                break;
+            case "nameTaken":
+                error = "Name is already taken.";
+                break;
+            default:
+                error = "Unknown error.";
+                break;
+        }
+    }
+    res.render("create", { error: error });
 });
 
 app.post("/create", async (req, res) => {
@@ -19,6 +43,19 @@ app.post("/create", async (req, res) => {
     }
     let name = req.body.name;
     let prompt = req.body.prompt;
+    if (!name || !prompt) {
+        return res.redirect("/create?error=empty");
+    }
+    if (name.length > 128) {
+        return res.redirect("/create?error=nameTooLong");
+    }
+    if (prompt.length > 512) {
+        return res.redirect("/create?error=promptTooLong");
+    }
+    let chall = await Queries.getChallengeByName(name);
+    if (chall) {
+        return res.redirect("/create?error=nameTaken");
+    }
     await Queries.addChallenge(user.sub, name, prompt);
     res.redirect("/challs");
 });

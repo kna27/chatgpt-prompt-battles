@@ -9,6 +9,12 @@
 <body>
     {{> header}}
     <section>
+        {{#if error}}
+            <div class="notification is-danger" style="width: 80%">
+                <button class="delete" onclick="this.parentElement.style.display='none';"></button>
+                <p>Error: {{error}}</p>
+            </div>
+        {{/if}}
         <h1 class="title is-2">Create a Challenge</h1>
         <h2 class="subtitle">Create a prompt to try and protect a randomized password from prompt injection.</h2>
         <form action="/create" method="post">

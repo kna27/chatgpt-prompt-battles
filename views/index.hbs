@@ -10,7 +10,7 @@
     {{> header}}
     <section class="section">
         <h1 class="title is-2">ChatGPT Prompt Battles</h1>
-        <p>ChatGPT Prompt Battles is a game centered around LLM prompt injection with ChatGPT.</p>
+        <p>ChatGPT Prompt Battles is a game centered around <strong>LLM prompt injection</strong> with ChatGPT.</p>
         <p>Create prompts to try and trick ChatGPT into revealing sensitive information (a password).</p>
         <p>Additionally, try and create your own prompts to defend against other attacking users.</p>
         {{#if user}}
@@ -18,6 +18,30 @@
         {{else}}
             <button class="button is-outline mt-3"><a href="/login">Login to Play</a></button>
         {{/if}}
+
+        <h2 class="subtitle is-4 mt-5">What is Prompt Injection?</h2>
+        <p>Prompt injection is a technique used to inject a prompt into an LLM, Large Language Model (such as ChatGPT),
+            to try and get it to reveal
+            sensitive information.</p>
+        <p>Since every prompt is seen as input to the LLM, it is unable to distinguish between the prompt and the
+            actual input.</p>
+        <p>This allows attackers to engineer their own prompts to try and trick the LLM into breaking out of its
+            behaviors set by its previous prompts.</p>
+        <p>As Large Language Models become more common in applications and in our daily lives, it is important to
+            understand how they can be manipulated through prompt injections.</p>
+
+        <h2 class="subtitle is-4 mt-5">How to Play</h2>
+        <p>In ChatGPT Prompt Battles, you can play both as an <strong>attacker</strong> and a <strong>defender</strong>.
+        </p>
+        <p>As an attacker, you will be given a prompt to try and trick the LLM into revealing a password. See a list of
+            all challenges <a href="/challs">here</a>.</p>
+        <p>As a defender, you can try and create your own prompt resistant to injections by attackers. Create a new
+            challenge <a href="/create">here</a>.</p>
+
+        <h2 class="subtitle is-4 mt-5">About</h2>
+        <p>ChatGPT Prompt Battles was created by <a href="https://github.com/kna27">Krish Arora</a>, <a
+                href="https://github.com/awt-256">Andrew Theberge</a>, and <a
+                href="https://github.com/zsofiagordon">Zsofia Gordon</a> for the BCA ATCS Fair 2023.</p>
     </section>
 </body>
 

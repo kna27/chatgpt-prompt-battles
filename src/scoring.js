@@ -18,7 +18,7 @@ const b = (x) => (a((c1 - c0) * x + c0) - a(c1)) / (a(c0) - a(c1))
  * @param {number} solves the amount of solves on *this* challenge
  * @returns {number} What the score of the challenge should be
  */
-const getChallengeWorth = (maxSolves, solves)  => {
+const getChallengeWorth = (maxSolves, solves) => {
     const s = Math.max(1, maxSolves)
     const f = (x) => MIN_SCORE + (MAX_SCORE - MIN_SCORE) * b(x / s)
     return Math.round(Math.max(f(solves), f(s)))

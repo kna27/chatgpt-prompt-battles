@@ -10,14 +10,14 @@
     {{> header}}
     <section>
         <h1 class="title is-2">Create a Challenge</h1>
-        <h2 class="subtitle">Create a prompt to try and hide a randomized password.</h2>
+        <h2 class="subtitle">Create a prompt to try and protect a randomized password from prompt injection.</h2>
         <form action="/create" method="post">
             <div class="column is-10 center">
                 <label for="name">Challenge Name</label>
                 <input type="text" name="name" placeholder="Challenge Name"
                     class="input is-rounded is-normal is-small-width">
-                <br/>
-                <br/>
+                <br />
+                <br />
                 <label for="prompt">Prompt</label>
                 <textarea name="prompt" placeholder="Prompt..." class="textarea is-small-width"></textarea>
                 <br />

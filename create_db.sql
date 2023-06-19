@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS solves CASCADE;
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL,
     auth0_user_key VARCHAR(255) UNIQUE NOT NULL,
-    username VARCHAR(255) NOT NULL,
+    username VARCHAR(50) NOT NULL,
     PRIMARY KEY (id)
 );
 

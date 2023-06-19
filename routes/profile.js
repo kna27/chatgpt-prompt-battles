@@ -18,6 +18,9 @@ app.get("/profile", async (req, res) => {
             case "usernameTaken":
                 options["error"] = "Username is already taken.";
                 break;
+            case "usernameLength":
+                options["error"] = "Username must be between 3 and 50 characters.";
+                break;
             default:
                 options["error"] = "Unknown error.";
                 break;
@@ -37,6 +40,9 @@ app.post("/profile", async (req, res) => {
     if (req.body.username) {
         if (req.body.username === dbUser.username) {
             return res.redirect("/profile");
+        }
+        if (req.body.username.length < 3 || req.body.username.length > 50) {
+            return res.redirect("/profile?error=usernameLength");
         }
         let usernameTaken = await Queries.getUserByUsername(req.body.username);
         if (usernameTaken) {

@@ -4,8 +4,12 @@ const wordlist = require('wordlist-english');
 const request = require('request');
 
 const app = new express.Router();
+
+var session = require('express-session');
+app.use(session);
+
 const passwordList = wordlist['english'];
-const password = passwordList[Math.floor(Math.random() * passwordList.length)]; // TODO (zsofia): make this random for each chall instance
+//const password = passwordList[Math.floor(Math.random() * passwordList.length)]; // TODO (zsofia): make this random for each chall instance
 
 app.get("/create", (req, res) => {
     res.render("create");
@@ -58,6 +62,16 @@ app.post("/play/:id", async (req, res) => {
         res.redirect("/login");
         return;
     }
+
+    var ssnpw;
+    if(req.session.ssnpw){
+        ssnpw = req.session.ssnpw;
+    }
+    else{
+        ssnpw = passwordList[Math.floor(Math.random() * passwordList.length)];
+        req.session.ssnpw = ssnpw;
+    }
+
     let id = req.params.id;
     let chall = await Queries.getChallenge(id);
     if (!chall) {
@@ -82,7 +96,7 @@ app.post("/play/:id", async (req, res) => {
     let messageArr = {
         "model": "gpt-3.5-turbo",
         "messages": [
-            { "role": "system", "content": "The password is " + password },
+            { "role": "system", "content": "The password is " + ssnpw },
             { "role": "system", "content": prompt },
             { "role": "user", "content": injection }
         ],

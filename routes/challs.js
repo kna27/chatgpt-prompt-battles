@@ -29,7 +29,7 @@ app.get("/challs", async (req, res) => {
         res.redirect("/login");
         return;
     }
-    let allChalls = await Queries.getAllChallenges();
+    let allChalls = await Queries.getAllChallengesWithUserSolvedCol(user.sub);
     res.render("challs", { challs: allChalls });
 });
 
@@ -53,7 +53,7 @@ app.get("/challs/:id", async (req, res) => {
     if (req.query.solved == "true") {
         options.solved = true;
     }
-    else {
+    else if (req.query.solved == "false") {
         options.not_solved = true;
     }
 

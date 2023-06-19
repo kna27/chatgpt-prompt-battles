@@ -21,7 +21,7 @@
             </thead>
             <tbody>
                 {{#each challs}}
-                    <tr>
+                    <tr {{#if this.solved_by_user}}class="has-background-success" {{/if}}>
                         <td><a href="/challs/{{this.challenge_id}}">{{this.challenge_name}}</a></td>
                         <td>{{this.author_name}}</td>
                         <td>{{this.solves_count}}</td>

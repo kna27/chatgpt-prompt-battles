@@ -39,16 +39,23 @@ async function addChallenge(auth0Sid, name, prompt) {
     await pool.query(query, values);
 }
 
-async function getAllChallenges() {
+async function getAllChallengesWithUserSolvedCol(auth0Sid) {
+    let user = await getUserByAuth0Id(auth0Sid);
     const query = `SELECT c.id AS challenge_id, 
-                        c.name AS challenge_name, 
-                        u.username AS author_name, 
-                        COUNT(s.id) AS solves_count
-                    FROM challenges c
-                    JOIN users u ON u.id = c.user_id
-                    LEFT JOIN solves s ON s.challenge_id = c.id
-                    GROUP BY c.id, u.username;`;
-    const result = await pool.query(query);
+                    c.name AS challenge_name, 
+                    u.username AS author_name, 
+                    COUNT(s.id) AS solves_count,
+                    CASE 
+                        WHEN su.id IS NULL THEN FALSE
+                        ELSE TRUE
+                    END AS solved_by_user
+                FROM challenges c
+                JOIN users u ON u.id = c.user_id
+                LEFT JOIN solves s ON s.challenge_id = c.id
+                LEFT JOIN solves su ON su.challenge_id = c.id AND su.user_id = $1
+                GROUP BY c.id, u.username,su.id;`;
+    const values = [user['id']];
+    const result = await pool.query(query, values);
     return result.rows;
 }
 
@@ -107,8 +114,14 @@ async function deleteChallenge(id) {
 
 async function addSolveToUser(auth0Sid, challengeId) {
     let user = await getUserByAuth0Id(auth0Sid);
-    const query = `INSERT INTO solves (user_id, challenge_id) VALUES ($1, $2)`;
-    const values = [user['id'], challengeId];
+    let query = `SELECT * FROM solves WHERE user_id = $1 AND challenge_id = $2`;
+    let values = [user['id'], challengeId];
+    let result = await pool.query(query, values);
+    if (result.rowCount !== 0) {
+        return;
+    }
+    query = `INSERT INTO solves (user_id, challenge_id) VALUES ($1, $2)`;
+    values = [user['id'], challengeId];
     await pool.query(query, values);
 }
 
@@ -117,7 +130,7 @@ module.exports = {
     createUser,
     updateUsername,
     addChallenge,
-    getAllChallenges,
+    getAllChallengesWithUserSolvedCol,
     getChallenge,
     getUsersChallenges,
     getChallengesSolvedByUser,

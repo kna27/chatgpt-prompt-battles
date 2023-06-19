@@ -9,6 +9,18 @@
 <body>
     {{> header}}
     <section>
+        {{#if solved}}
+            <div class="notification is-success" style="width: 80%">
+                <button class="delete" onclick="this.parentElement.style.display='none';"></button>
+                <p>Correct Password!</p>
+            </div>
+        {{/if}}
+        {{#if not_solved}}
+            <div class="notification is-danger" style="width: 80%">
+                <button class="delete" onclick="this.parentElement.style.display='none';"></button>
+                <p>Incorrect Password!</p>
+            </div>
+        {{/if}}
         <div class="content column is-8">
             <h1 class="title is-2">{{name}}</h1>
             <h2 class="subtitle">By {{author}}</h2>
@@ -27,7 +39,7 @@
         </div>
         <form action="/play/{{id}}" method="POST">
             <label for="flagInput">Password:</label>
-            <br/>
+            <br />
             <input type="text" id="password" name="password" class="input is-rounded is-normal is-small-width" required>
             <button type="submit" class="button is-primary">Submit</button>
         </form>

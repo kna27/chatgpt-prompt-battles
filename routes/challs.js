@@ -45,11 +45,19 @@ app.get("/challs/:id", async (req, res) => {
         res.redirect("/challs");
         return;
     }
-    res.render("play", {
+    let options = {
         id: chall['challenge_id'], name: chall['challenge_name'],
         author: chall['author_name'], solves: chall['solves_count'],
         prompt: chall['challenge_prompt']
-    });
+    };
+    if (req.query.solved == "true") {
+        options.solved = true;
+    }
+    else {
+        options.not_solved = true;
+    }
+
+    res.render("play", options);
 });
 
 app.post("/play/:id", async (req, res) => {
@@ -71,11 +79,11 @@ app.post("/play/:id", async (req, res) => {
     if (passwordAttempt) {
         if (passwordAttempt == password) {
             Queries.addSolveToUser(user.sub, id);
-            res.redirect("/profile");
+            res.redirect("/challs/" + id + "/?solved=true");
             return;
         }
         else {
-            res.redirect("/challs/" + id);
+            res.redirect("/challs/" + id + "/?solved=false");
             return;
         }
     }

@@ -5,7 +5,8 @@ const request = require('request');
 
 const app = new express.Router();
 const passwordList = wordlist['english'];
-const password = passwordList[Math.floor(Math.random() * passwordList.length)]; // TODO (zsofia): make this random for each chall instance
+//const password = passwordList[Math.floor(Math.random() * passwordList.length)]; // TODO (zsofia): make this random for each chall instance
+const serverSeed = Math.floor(Math.random() * Math.sqrt(passwordList.length));
 
 app.get("/create", (req, res) => {
     let user = req.oidc.user;
@@ -105,6 +106,10 @@ app.post("/play/:id", async (req, res) => {
     }
     let id = req.params.id;
     let chall = await Queries.getChallenge(id);
+
+    let challSeed = id;
+    let password = passwordList[serverSeed*challSeed];
+
     if (!chall) {
         res.redirect("/challs");
         return;

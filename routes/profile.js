@@ -14,6 +14,7 @@ app.get("/profile", async (req, res) => {
     let challsSolved = await Queries.getChallengesSolvedByUser(dbUser.id);
     let options = { username: dbUser.username, challsCreated: challsCreated, challsSolved: challsSolved };
     if (req.query.error) {
+        // added in POST
         switch (req.query.error) {
             case "usernameTaken":
                 options["error"] = "Username is already taken.";
